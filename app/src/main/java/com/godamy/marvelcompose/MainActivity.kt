@@ -10,10 +10,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.godamy.marvelcompose.data.entities.Character
-import com.godamy.marvelcompose.ui.screens.characters.CharacterScreen
-import com.godamy.marvelcompose.ui.screens.characters.CharactersScreenPreview
+import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.ui.screens.comics.ComicsScreen
 import com.godamy.marvelcompose.ui.theme.MarvelComposeTheme
 
 @ExperimentalFoundationApi
@@ -21,16 +19,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val character = (1..10).map {
-                Character(
-                    it,
-                    "Name $it",
-                    "Description $it",
-                    "https://via.placeholder.com/150x225/FFFF00/000000?text=name$it"
-                )
-            }
             MarvelApp {
-                CharacterScreen(characters = character)
+                ComicsScreen()
             }
         }
     }
@@ -47,9 +37,4 @@ fun MarvelApp(content: @Composable () -> Unit) {
             content()
         }
     }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
 }
