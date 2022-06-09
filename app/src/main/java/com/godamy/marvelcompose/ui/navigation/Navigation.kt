@@ -1,6 +1,7 @@
 package com.godamy.marvelcompose.ui.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -11,6 +12,7 @@ import com.godamy.marvelcompose.ui.screens.comics.ComicsScreen
 import com.godamy.marvelcompose.ui.screens.comics.detail.ComicDetailScreen
 
 @ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
