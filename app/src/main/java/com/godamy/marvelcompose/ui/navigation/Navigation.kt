@@ -5,9 +5,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.godamy.marvelcompose.ui.screen.detail.ComicDetailScreen
 import com.godamy.marvelcompose.ui.screen.main.ComicsScreen
 
@@ -19,14 +21,27 @@ fun Navigation() {
 
     NavHost(
         navController = navController,
-        startDestination = NavItem.Comics.route
+        startDestination = Feature.COMICS.route
     ) {
-        composable(NavItem.Comics) {
+        comicsNav(navController)
+        //charactersNav(navController)
+    }
+}
+
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+private fun NavGraphBuilder.comicsNav(navController: NavHostController) {
+
+    navigation(
+        startDestination = NavItem.ContentType(Feature.COMICS).route,
+        route = Feature.COMICS.route
+    ) {
+        composable(NavItem.ContentType(Feature.COMICS)) {
             ComicsScreen(onClick = {
-                navController.navigate(NavItem.ComicDetail.createRoute(it.id))
+                navController.navigate(NavItem.ContentDetail(Feature.COMICS).createRoute(it.id))
             })
         }
-        composable(NavItem.ComicDetail) {
+        composable(NavItem.ContentDetail(Feature.COMICS)) {
             ComicDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
