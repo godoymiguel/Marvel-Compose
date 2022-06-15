@@ -12,6 +12,8 @@ import com.godamy.marvelcompose.data.entities.Comic
 @ExperimentalMaterialApi
 @Composable
 fun DetailAppBarMenu(comic: Comic) {
+    if (comic.urls.isEmpty()) return
+
     var showMenu by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 

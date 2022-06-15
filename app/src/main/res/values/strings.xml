@@ -4,4 +4,6 @@
     <string name="more_action">More Actions</string>
     <string name="share_comic">Share comic</string>
     <string name="characters">Charaters</string>
+    <string name="menu">Menu</string>
+    <string name="favorite">Favorite</string>
 </resources>
