@@ -2,4 +2,6 @@
     <string name="app_name">Marvel Compose</string>
     <string name="arrow_back">Previous page</string>
     <string name="more_action">More Actions</string>
+    <string name="share_comic">Share comic</string>
+    <string name="characters">Charaters</string>
 </resources>

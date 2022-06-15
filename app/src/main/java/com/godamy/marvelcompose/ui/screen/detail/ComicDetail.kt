@@ -11,19 +11,31 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.Character
 import com.godamy.marvelcompose.data.entities.Comic
 
 @ExperimentalMaterialApi
 @Composable
-fun ComicDetail(comic: Comic) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        item {
-            Header(comic)
+fun ComicDetail(comic: Comic, onBackClick: () -> Unit) {
+    ComicDetailScaffold(
+        comic = comic,
+        onBackClick = onBackClick
+    ) { padding ->
+        val titleCharacter = stringResource(id = R.string.characters)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(padding)
+        ) {
+            item {
+                Header(comic)
+            }
+            section(Icons.Default.AccountCircle, titleCharacter, comic.character)
         }
-
-        section(Icons.Default.AccountCircle, "Characters", comic.character)
     }
 }
 
@@ -39,7 +51,7 @@ private fun LazyListScope.section(
         Text(
             text = title,
             style = MaterialTheme.typography.h5,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_16))
         )
     }
     items(character) {
