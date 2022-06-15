@@ -5,5 +5,6 @@ data class Comic(
     val title: String,
     val description: String,
     val thumbnail: String,
-    val character: List<Character>
+    val character: List<Character>,
+    val urls: List<Url>
 )

@@ -8,8 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.godamy.marvelcompose.ui.screens.comics.ComicsScreen
-import com.godamy.marvelcompose.ui.screens.comics.detail.ComicDetailScreen
+import com.godamy.marvelcompose.ui.screen.detail.ComicDetailScreen
+import com.godamy.marvelcompose.ui.screen.main.ComicsScreen
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -27,7 +27,12 @@ fun Navigation() {
             })
         }
         composable(NavItem.ComicDetail) {
-            ComicDetailScreen(it.findArg<Int>(NavArg.ItemId))
+            ComicDetailScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                comicId = it.findArg(NavArg.ItemId)
+            )
         }
     }
 }
