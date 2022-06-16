@@ -1,21 +1,20 @@
-package com.godamy.marvelcompose.ui.screen.detail
+package com.godamy.marvelcompose.ui.screen.comic
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
 import com.godamy.marvelcompose.data.entities.Comic
 import com.godamy.marvelcompose.data.repositories.ComicsRepository
+import com.godamy.marvelcompose.ui.screen.detail.MarvelItemDetail
 
 @ExperimentalMaterialApi
 @Composable
-fun MarvelItemDetailScreen(onBackClick: () -> Unit, itemId: Int) {
-    var marvelItemState by remember {
+fun ComicDetailScreen(onBackClick: () -> Unit, itemId: Int) {
+    var comicState by remember {
         mutableStateOf<Comic?>(null)
     }
     LaunchedEffect(Unit) {
-        marvelItemState = ComicsRepository.find(itemId)
+        comicState = ComicsRepository.find(itemId)
 
     }
-    marvelItemState?.let { marvelItem ->
-        MarvelItemDetail(marvelItem = marvelItem, onBackClick)
-    }
+    comicState?.let { MarvelItemDetail(it, onBackClick) }
 }
