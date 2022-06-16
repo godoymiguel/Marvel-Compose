@@ -1,30 +1,19 @@
 package com.godamy.marvelcompose.ui.navigation
 
-import androidx.navigation.navArgument
+import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.godamy.marvelcompose.R
 
-sealed class NavItem(
-    internal val feature: Feature,
-    internal val subRoute: String = "home",
-    private val navArgs: List<NavArg> = emptyList()
+enum class NavItem(
+    val navCommand: NavCommand,
+    val icon: ImageVector,
+    @StringRes val title: Int
 ) {
-    class ContentType(feature: Feature) : NavItem(feature)
-
-    class ContentDetail(feature: Feature) : NavItem(
-        feature,
-        "detail",
-        listOf(NavArg.ItemId)
-    ) {
-        fun createRoute(itemId: Int) = "${feature.route}/$subRoute/$itemId"
-    }
-
-    val route = run {
-        val argValues = navArgs.map { "{${it.key}}" }
-        listOf(feature.route, subRoute)
-            .plus(argValues)
-            .joinToString("/")
-    }
-
-    val args = navArgs.map {
-        navArgument(it.key) {type = it.navType}
-    }
+    COMICS(NavCommand.ContentType(Feature.COMICS), Icons.Default.Book, R.string.comic),
+    CHARACTERS(NavCommand.ContentType(Feature.CHARACTERS), Icons.Default.Face, R.string.characters),
+    EVENTS(NavCommand.ContentType(Feature.EVENTS), Icons.Default.Event, R.string.events)
 }

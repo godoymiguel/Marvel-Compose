@@ -4,18 +4,20 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.Event
 import com.godamy.marvelcompose.data.repositories.ComicsRepository
+import com.godamy.marvelcompose.data.repositories.EventsRepository
 import com.godamy.marvelcompose.ui.screen.main.MarvelItemsList
 
 @ExperimentalFoundationApi
 @Composable
-fun EventsScreen(onClick: (Comic) -> Unit) {
+fun EventsScreen(onClick: (Event) -> Unit) {
     var eventsState by rememberSaveable {
-        mutableStateOf(emptyList<Comic>())
+        mutableStateOf(emptyList<Event>())
     }
 
     LaunchedEffect(Unit) {
-        eventsState = ComicsRepository.get()
+        eventsState = EventsRepository.get()
     }
 
     MarvelItemsList(eventsState, onClick)

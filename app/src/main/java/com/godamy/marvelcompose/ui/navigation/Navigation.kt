@@ -20,9 +20,7 @@ import com.godamy.marvelcompose.ui.screen.event.EventsScreen
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
-
+fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Feature.COMICS.route
@@ -35,18 +33,18 @@ fun Navigation() {
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
-private fun NavGraphBuilder.eventsNav(navController: NavHostController) {
+private fun NavGraphBuilder.comicsNav(navController: NavHostController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.EVENTS).route,
-        route = Feature.EVENTS.route
+        startDestination = NavCommand.ContentType(Feature.COMICS).route,
+        route = Feature.COMICS.route
     ) {
-        composable(NavItem.ContentType(Feature.EVENTS)) {
-            EventsScreen(onClick = {
-                navController.navigate(NavItem.ContentDetail(Feature.EVENTS).createRoute(it.id))
+        composable(NavCommand.ContentType(Feature.COMICS)) {
+            ComicsScreen(onClick = {
+                navController.navigate(NavCommand.ContentDetail(Feature.COMICS).createRoute(it.id))
             })
         }
-        composable(NavItem.ContentDetail(Feature.EVENTS)) {
-            EventDetailScreen(
+        composable(NavCommand.ContentDetail(Feature.COMICS)) {
+            ComicDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -60,15 +58,15 @@ private fun NavGraphBuilder.eventsNav(navController: NavHostController) {
 @ExperimentalMaterialApi
 private fun NavGraphBuilder.charactersNav(navController: NavHostController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.CHARACTERS).route,
+        startDestination = NavCommand.ContentType(Feature.CHARACTERS).route,
         route = Feature.CHARACTERS.route
     ) {
-        composable(NavItem.ContentType(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentType(Feature.CHARACTERS)) {
             CharactersScreen(onClick = {
-                navController.navigate(NavItem.ContentDetail(Feature.CHARACTERS).createRoute(it.id))
+                navController.navigate(NavCommand.ContentDetail(Feature.CHARACTERS).createRoute(it.id))
             })
         }
-        composable(NavItem.ContentDetail(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentDetail(Feature.CHARACTERS)) {
             CharacterDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
@@ -81,19 +79,18 @@ private fun NavGraphBuilder.charactersNav(navController: NavHostController) {
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
-private fun NavGraphBuilder.comicsNav(navController: NavHostController) {
-
+private fun NavGraphBuilder.eventsNav(navController: NavHostController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.COMICS).route,
-        route = Feature.COMICS.route
+        startDestination = NavCommand.ContentType(Feature.EVENTS).route,
+        route = Feature.EVENTS.route
     ) {
-        composable(NavItem.ContentType(Feature.COMICS)) {
-            ComicsScreen(onClick = {
-                navController.navigate(NavItem.ContentDetail(Feature.COMICS).createRoute(it.id))
+        composable(NavCommand.ContentType(Feature.EVENTS)) {
+            EventsScreen(onClick = {
+                navController.navigate(NavCommand.ContentDetail(Feature.EVENTS).createRoute(it.id))
             })
         }
-        composable(NavItem.ContentDetail(Feature.COMICS)) {
-            ComicDetailScreen(
+        composable(NavCommand.ContentDetail(Feature.EVENTS)) {
+            EventDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -104,12 +101,12 @@ private fun NavGraphBuilder.comicsNav(navController: NavHostController) {
 }
 
 private fun NavGraphBuilder.composable(
-    navItem: NavItem,
+    navCommand: NavCommand,
     content: @Composable (NavBackStackEntry) -> Unit
 ) {
     composable(
-        route = navItem.route,
-        arguments = navItem.args
+        route = navCommand.route,
+        arguments = navCommand.args
     ) {
         content(it)
     }
