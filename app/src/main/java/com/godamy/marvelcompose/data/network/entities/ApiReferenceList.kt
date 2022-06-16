@@ -1,8 +1,8 @@
 package com.godamy.marvelcompose.data.network.entities
 
-data class Events(
+data class ApiReferenceList(
     val available: Int,
     val collectionURI: String,
-    val items: List<ApiEvent>,
+    val items: List<ApiReference>?,
     val returned: Int
 )

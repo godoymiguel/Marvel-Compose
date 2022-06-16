@@ -1,6 +1,6 @@
 package com.godamy.marvelcompose.data.network.entities
 
-data class Character(
+data class ApiVariant(
     val name: String,
     val resourceURI: String
 )

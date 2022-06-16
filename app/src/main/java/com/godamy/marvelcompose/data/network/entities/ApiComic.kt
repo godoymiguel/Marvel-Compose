@@ -1,16 +1,16 @@
 package com.godamy.marvelcompose.data.network.entities
 
-data class Comic(
-    val characters: Characters,
+data class ApiComic(
+    val characters: ApiReferenceList,
     val collectedIssues: List<CollectedIssue>,
     val collections: List<Collection>,
-    val creators: Creators,
+    val creators: ApiReferenceList,
     val dates: List<Date>,
     val description: String?,
     val diamondCode: String,
     val digitalId: Int,
     val ean: String,
-    val events: Events,
+    val events: ApiReferenceList,
     val format: String,
     val id: Int,
     val images: List<Image>,
@@ -19,15 +19,15 @@ data class Comic(
     val issueNumber: Int,
     val modified: String,
     val pageCount: Int,
-    val prices: List<Price>,
+    val prices: List<ApiPrice>,
     val resourceURI: String,
-    val series: Series,
-    val stories: Stories,
+    val series: ApiReferenceList,
+    val stories: ApiReferenceList,
     val textObjects: List<TextObject>,
-    val thumbnail: Thumbnail,
+    val thumbnail: ApiThumbnail,
     val title: String,
     val upc: String,
-    val urls: List<Url>,
+    val urls: List<ApiUrl>,
     val variantDescription: String,
-    val variants: List<Variant>
+    val variants: List<ApiVariant>
 )

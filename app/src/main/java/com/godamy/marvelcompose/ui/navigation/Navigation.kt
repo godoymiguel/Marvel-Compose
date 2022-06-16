@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.godamy.marvelcompose.ui.screen.detail.ComicDetailScreen
+import com.godamy.marvelcompose.ui.screen.detail.MarvelItemDetailScreen
 import com.godamy.marvelcompose.ui.screen.main.ComicsScreen
 
 @ExperimentalFoundationApi
@@ -24,7 +24,26 @@ fun Navigation() {
         startDestination = Feature.COMICS.route
     ) {
         comicsNav(navController)
-        //charactersNav(navController)
+        charactersNav(navController)
+        eventsNav(navController)
+    }
+}
+
+private fun NavGraphBuilder.eventsNav(navController: NavHostController) {
+    navigation(
+        startDestination = NavItem.ContentType(Feature.EVENTS).route,
+        route = Feature.EVENTS.route
+    ) {
+
+    }
+}
+
+private fun NavGraphBuilder.charactersNav(navController: NavHostController) {
+    navigation(
+        startDestination = NavItem.ContentType(Feature.CHARACTERS).route,
+        route = Feature.CHARACTERS.route
+    ) {
+
     }
 }
 
@@ -42,11 +61,11 @@ private fun NavGraphBuilder.comicsNav(navController: NavHostController) {
             })
         }
         composable(NavItem.ContentDetail(Feature.COMICS)) {
-            ComicDetailScreen(
+            MarvelItemDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
                 },
-                comicId = it.findArg(NavArg.ItemId)
+                itemId = it.findArg(NavArg.ItemId)
             )
         }
     }

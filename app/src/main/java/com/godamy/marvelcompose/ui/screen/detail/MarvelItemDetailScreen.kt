@@ -7,15 +7,15 @@ import com.godamy.marvelcompose.data.repositories.ComicsRepository
 
 @ExperimentalMaterialApi
 @Composable
-fun ComicDetailScreen(onBackClick: () -> Unit, comicId: Int) {
-    var comicState by remember {
+fun MarvelItemDetailScreen(onBackClick: () -> Unit, itemId: Int) {
+    var marvelItemState by remember {
         mutableStateOf<Comic?>(null)
     }
     LaunchedEffect(Unit) {
-        comicState = ComicsRepository.findComic(comicId)
+        marvelItemState = ComicsRepository.find(itemId)
 
     }
-    comicState?.let { comic ->
-        ComicDetail(comic = comic, onBackClick)
+    marvelItemState?.let { marvelItem ->
+        MarvelItemDetail(marvelItem = marvelItem, onBackClick)
     }
 }

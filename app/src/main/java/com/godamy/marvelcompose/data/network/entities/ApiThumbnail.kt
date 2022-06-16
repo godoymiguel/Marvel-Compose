@@ -1,8 +1,8 @@
 package com.godamy.marvelcompose.data.network.entities
 
-data class Thumbnail(
+data class ApiThumbnail(
     val extension: String,
     val path: String
 )
 
-fun Thumbnail.asString(): String = "$path.$extension".replace("http","https")
+fun ApiThumbnail.asString(): String = "$path.$extension".replace("http","https")

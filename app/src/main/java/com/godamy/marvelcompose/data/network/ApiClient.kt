@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 const val API_ENDPOINT = "https://gateway.marvel.com/"
 
@@ -24,5 +25,7 @@ object ApiClient {
         .client(okHttpClient)
         .build()
 
-    val comicsService: ComicsService = restAdapater.create(ComicsService::class.java)
+    val comicsService: ComicsService = restAdapater.create()
+    val charactersService: CharactersService = restAdapater.create()
+    val eventsService: EventsService = restAdapater.create()
 }

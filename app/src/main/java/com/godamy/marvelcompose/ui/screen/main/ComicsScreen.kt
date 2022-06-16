@@ -15,7 +15,7 @@ fun ComicsScreen(onClick: (Comic) -> Unit) {
     }
 
     LaunchedEffect(Unit) {
-        comicsState = ComicsRepository.getComics()
+        comicsState = ComicsRepository.get()
     }
 
     Scaffold(

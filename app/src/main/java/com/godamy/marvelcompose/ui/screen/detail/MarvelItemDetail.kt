@@ -1,5 +1,6 @@
 package com.godamy.marvelcompose.ui.screen.detail
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,21 +8,22 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.godamy.marvelcompose.R
-import com.godamy.marvelcompose.data.entities.Character
-import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.MarvelItem
+import com.godamy.marvelcompose.data.entities.Reference
+import com.godamy.marvelcompose.data.entities.ReferenceList
 
 @ExperimentalMaterialApi
 @Composable
-fun ComicDetail(comic: Comic, onBackClick: () -> Unit) {
+fun MarvelItemDetail(marvelItem: MarvelItem, onBackClick: () -> Unit) {
     ComicDetailScaffold(
-        comic = comic,
+        comic = marvelItem,
         onBackClick = onBackClick
     ) { padding ->
         val titleCharacter = stringResource(id = R.string.characters)
@@ -31,9 +33,12 @@ fun ComicDetail(comic: Comic, onBackClick: () -> Unit) {
                 .padding(padding)
         ) {
             item {
-                Header(comic)
+                Header(marvelItem)
             }
-            section(Icons.Default.AccountCircle, titleCharacter, comic.character)
+            marvelItem.references.forEach {
+                val (icon, @StringRes stringRes) = it.type.createUiData()
+                section(icon, stringRes, it.items)
+            }
         }
     }
 }
@@ -41,19 +46,19 @@ fun ComicDetail(comic: Comic, onBackClick: () -> Unit) {
 @ExperimentalMaterialApi
 private fun LazyListScope.section(
     icon: ImageVector,
-    title: String,
-    character: List<Character>
+    @StringRes name: Int,
+    items: List<Reference>
 ) {
-    if (character.isNullOrEmpty()) return
+    if (items.isNullOrEmpty()) return
 
     item {
         Text(
-            text = title,
+            text = stringResource(name),
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_16))
         )
     }
-    items(character) {
+    items(items) {
         ListItem(
             icon = {
                 Icon(
@@ -64,4 +69,12 @@ private fun LazyListScope.section(
             text = { Text(text = it.name) }
         )
     }
+}
+
+private fun ReferenceList.Type.createUiData(): Pair<ImageVector, Int> = when (this) {
+    ReferenceList.Type.CHARACTER -> Icons.Default.Person to R.string.characters
+    ReferenceList.Type.COMIC -> Icons.Default.Book to R.string.comic
+    ReferenceList.Type.STORY -> Icons.Default.Bookmark to R.string.stories
+    ReferenceList.Type.EVENT -> Icons.Default.Event to R.string.events
+    ReferenceList.Type.SERIES -> Icons.Default.Collections to R.string.series
 }

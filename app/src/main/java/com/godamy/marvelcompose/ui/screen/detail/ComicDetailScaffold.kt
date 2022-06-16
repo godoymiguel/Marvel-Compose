@@ -16,12 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.app.ShareCompat
 import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.MarvelItem
 import com.godamy.marvelcompose.ui.screen.common.IconButtonBar
 
 @ExperimentalMaterialApi
 @Composable
 fun ComicDetailScaffold(
-    comic: Comic,
+    comic: MarvelItem,
     onBackClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {

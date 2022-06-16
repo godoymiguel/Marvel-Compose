@@ -1,45 +1,70 @@
 package com.godamy.marvelcompose.data.repositories
 
-import com.godamy.marvelcompose.data.entities.Character
 import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.ReferenceList
 import com.godamy.marvelcompose.data.entities.Url
 import com.godamy.marvelcompose.data.network.ApiClient
+import com.godamy.marvelcompose.data.network.entities.ApiComic
 import com.godamy.marvelcompose.data.network.entities.asString
-import com.godamy.marvelcompose.data.network.entities.Comic as ServerComic
 
-object ComicsRepository {
+object ComicsRepository : Repository<Comic>() {
 
-    suspend fun getComics(): List<Comic> {
-        val result = ApiClient.comicsService.getComics(0, 100)
-
-        return result.data.results.map {
-            it.toDomainModel()
-        }
+    suspend fun get(format: Comic.Format? = null): List<Comic> = super.get {
+        ApiClient
+            .comicsService
+            .getComics(offset = 0, limit = 100, format = format?.toStringFormat())
+            .data
+            .results
+            .map { it.toDomainModel() }
     }
 
-    suspend fun findComic(comicId: Int): Comic {
-        val result = ApiClient.comicsService.findComic(comicId)
-        return result.data.results.first().toDomainModel()
-    }
-
-    private fun ServerComic.toDomainModel(): Comic {
-        val characters = characters.items.map {
-            Character(it.name)
+    suspend fun find(comicId: Int): Comic = super.find(
+        id = comicId,
+        findActionRemote = {
+            ApiClient
+                .comicsService
+                .findComic(comicId)
+                .data
+                .results
+                .first()
+                .toDomainModel()
         }
+    )
 
-        val urls = urls.map {
-            Url(
-                type = it.type,
-                url = it.url
-            )
-        }
-        return Comic(
+    private fun ApiComic.toDomainModel(): Comic =
+        Comic(
             id,
             title,
             description ?: variantDescription,
             thumbnail.asString(),
-            characters,
-            urls
+            format.toDomain(),
+            listOf(
+                characters.toDomainModel(ReferenceList.Type.CHARACTER),
+                series.toDomainModel(ReferenceList.Type.SERIES)
+            ),
+            urls.map { Url(type = it.type, url = it.url) }
         )
+
+
+    private fun String.toDomain(): Comic.Format = when (this) {
+        "magazine" -> Comic.Format.MAGAZINE
+        "trade paperback" -> Comic.Format.TRADE_PAPERBACK
+        "hardcover" -> Comic.Format.HARDCOVER
+        "digest" -> Comic.Format.DIGEST
+        "graphic novel" -> Comic.Format.GRAPHIC_NOVEL
+        "infinite comic" -> Comic.Format.INFINITE_COMIC
+        "digital comic" -> Comic.Format.DIGITAL_COMIC
+        else -> Comic.Format.COMIC
+    }
+
+    private fun Comic.Format.toStringFormat(): String = when (this) {
+        Comic.Format.COMIC -> "comic"
+        Comic.Format.MAGAZINE -> "magazine"
+        Comic.Format.TRADE_PAPERBACK -> "trade paperback"
+        Comic.Format.HARDCOVER -> "hardcover"
+        Comic.Format.DIGEST -> "digest"
+        Comic.Format.GRAPHIC_NOVEL -> "graphic novel"
+        Comic.Format.DIGITAL_COMIC -> "digital comic"
+        Comic.Format.INFINITE_COMIC -> "infinite comic"
     }
 }

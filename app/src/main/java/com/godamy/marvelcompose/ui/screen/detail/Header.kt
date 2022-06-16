@@ -12,14 +12,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.MarvelItem
 
 @Composable
-fun Header(comic: Comic) {
+fun Header(marvelItem: MarvelItem) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Image(
-            painter = rememberAsyncImagePainter(comic.thumbnail),
-            contentDescription = comic.title,
+            painter = rememberAsyncImagePainter(marvelItem.thumbnail),
+            contentDescription = marvelItem.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -28,7 +28,7 @@ fun Header(comic: Comic) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = comic.title,
+            text = marvelItem.title,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h4,
             modifier = Modifier
@@ -37,7 +37,7 @@ fun Header(comic: Comic) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = comic.description,
+            text = marvelItem.description,
             style = MaterialTheme.typography.body1,
             modifier = Modifier
                 .fillMaxWidth()

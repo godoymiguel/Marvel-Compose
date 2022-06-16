@@ -6,4 +6,8 @@
     <string name="characters">Charaters</string>
     <string name="menu">Menu</string>
     <string name="favorite">Favorite</string>
+    <string name="comic">Comics</string>
+    <string name="stories">Stories</string>
+    <string name="events">Events</string>
+    <string name="series">Series</string>
 </resources>
