@@ -7,12 +7,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import com.godamy.marvelcompose.R
-import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.MarvelItem
 
 @ExperimentalMaterialApi
 @Composable
-fun DetailAppBarMenu(comic: Comic) {
-    if (comic.urls.isEmpty()) return
+fun DetailAppBarMenu(marvelItem: MarvelItem) {
+    if (marvelItem.urls.isEmpty()) return
 
     var showMenu by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
@@ -26,7 +26,7 @@ fun DetailAppBarMenu(comic: Comic) {
             expanded = showMenu,
             onDismissRequest = { showMenu = !showMenu }
         ) {
-            comic.urls.forEach {
+            marvelItem.urls.forEach {
                 DropdownMenuItem(
                     onClick = {
                         uriHandler.openUri(it.url)

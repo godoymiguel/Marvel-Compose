@@ -22,11 +22,10 @@ import com.godamy.marvelcompose.data.entities.ReferenceList
 @ExperimentalMaterialApi
 @Composable
 fun MarvelItemDetail(marvelItem: MarvelItem, onBackClick: () -> Unit) {
-    ComicDetailScaffold(
-        comic = marvelItem,
+    MarvelItemDetailScaffold(
+        marvelItem = marvelItem,
         onBackClick = onBackClick
     ) { padding ->
-        val titleCharacter = stringResource(id = R.string.characters)
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

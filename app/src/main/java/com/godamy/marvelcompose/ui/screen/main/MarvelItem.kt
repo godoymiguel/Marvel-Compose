@@ -15,11 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.godamy.marvelcompose.data.entities.Comic
+import com.godamy.marvelcompose.data.entities.MarvelItem
 
 @Composable
-fun ComicItem(
-    comic: Comic,
+fun MarvelItem(
+    marvelItem: MarvelItem,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -27,8 +27,8 @@ fun ComicItem(
     ) {
         Card {
             Image(
-                painter = rememberAsyncImagePainter(model = comic.thumbnail),
-                contentDescription = comic.title,
+                painter = rememberAsyncImagePainter(model = marvelItem.thumbnail),
+                contentDescription = marvelItem.title,
                 modifier = Modifier
                     .background(Color.LightGray)
                     .fillMaxSize()
@@ -37,7 +37,7 @@ fun ComicItem(
             )
         }
         Text(
-            text = comic.title,
+            text = marvelItem.title,
             style = MaterialTheme.typography.subtitle1,
             maxLines = 2,
             modifier = Modifier.padding(8.dp, 16.dp)

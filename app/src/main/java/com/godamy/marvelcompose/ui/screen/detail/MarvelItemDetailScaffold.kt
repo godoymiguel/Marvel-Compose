@@ -15,14 +15,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.ShareCompat
 import com.godamy.marvelcompose.R
-import com.godamy.marvelcompose.data.entities.Comic
 import com.godamy.marvelcompose.data.entities.MarvelItem
 import com.godamy.marvelcompose.ui.screen.common.IconButtonBar
 
 @ExperimentalMaterialApi
 @Composable
-fun ComicDetailScaffold(
-    comic: MarvelItem,
+fun MarvelItemDetailScaffold(
+    marvelItem: MarvelItem,
     onBackClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -30,11 +29,11 @@ fun ComicDetailScaffold(
 
     Scaffold(
         topBar = {
-            DetailAppBar(comic, onBackClick)
+            DetailAppBar(marvelItem, onBackClick)
         },
         floatingActionButton = {
-            if (comic.urls.isNotEmpty()) {
-                FloatingActionButton(onClick = { shareComic(context, comic) }) {
+            if (marvelItem.urls.isNotEmpty()) {
+                FloatingActionButton(onClick = { shareComic(context, marvelItem) }) {
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = stringResource(id = R.string.share_comic)
@@ -63,12 +62,12 @@ fun ComicDetailScaffold(
     )
 }
 
-private fun shareComic(context: Context, comic: Comic) {
+private fun shareComic(context: Context, marvelItem: MarvelItem) {
     ShareCompat
         .IntentBuilder(context)
         .setType("text/plain")
-        .setSubject(comic.title)
-        .setText(comic.urls.first().url)
+        .setSubject(marvelItem.title)
+        .setText(marvelItem.urls.first().url)
         .intent
         .also(context::startActivity)
 }

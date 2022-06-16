@@ -1,7 +1,6 @@
 package com.godamy.marvelcompose.ui.screen.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.godamy.marvelcompose.data.entities.Comic
@@ -18,14 +17,8 @@ fun ComicsScreen(onClick: (Comic) -> Unit) {
         comicsState = ComicsRepository.get()
     }
 
-    Scaffold(
-        topBar = {
-            MainAppBar()
-        }
-    ) {
-        ComicList(
-            comics = comicsState,
-            onClick = onClick
-        )
-    }
+    MarvelItemsList(
+        items = comicsState,
+        onClick = onClick
+    )
 }
