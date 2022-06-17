@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import com.godamy.marvelcompose.ui.MarvelApp
 import com.godamy.marvelcompose.ui.navigation.Navigation
 import com.godamy.marvelcompose.ui.theme.MarvelComposeTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

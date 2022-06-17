@@ -18,6 +18,7 @@ import com.godamy.marvelcompose.ui.screen.main.MarvelScreen
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun MarvelApp() {
     val navController = rememberNavController()

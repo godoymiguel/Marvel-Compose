@@ -4,10 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.godamy.marvelcompose.data.entities.Character
-import com.godamy.marvelcompose.data.entities.Comic
 import com.godamy.marvelcompose.data.repositories.CharactersRepository
-import com.godamy.marvelcompose.data.repositories.ComicsRepository
-import com.godamy.marvelcompose.ui.screen.main.MarvelItemsList
+import com.godamy.marvelcompose.ui.screen.main.MarvelItemsVerticalGrid
 
 @ExperimentalFoundationApi
 @Composable
@@ -20,5 +18,5 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
         charactersState = CharactersRepository.get()
     }
 
-    MarvelItemsList(charactersState, onClick)
+    MarvelItemsVerticalGrid(charactersState, onClick)
 }
