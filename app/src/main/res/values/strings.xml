@@ -10,4 +10,6 @@
     <string name="stories">Stories</string>
     <string name="events">Events</string>
     <string name="series">Series</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
 </resources>
