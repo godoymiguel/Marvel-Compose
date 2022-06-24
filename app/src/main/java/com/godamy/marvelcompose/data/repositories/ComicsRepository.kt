@@ -7,29 +7,26 @@ import com.godamy.marvelcompose.data.network.ApiClient
 import com.godamy.marvelcompose.data.network.entities.ApiComic
 import com.godamy.marvelcompose.data.network.entities.asString
 
-object ComicsRepository : Repository<Comic>() {
+object ComicsRepository {
 
-    suspend fun get(format: Comic.Format? = null): List<Comic> = super.get {
+    suspend fun get(format: Comic.Format): List<Comic> =
         ApiClient
             .comicsService
-            .getComics(offset = 0, limit = 100, format = format?.toStringFormat())
+            .getComics(offset = 0, limit = 20, format = format.toStringFormat())
             .data
             .results
             .map { it.toDomainModel() }
-    }
 
-    suspend fun find(comicId: Int): Comic = super.find(
-        id = comicId,
-        findActionRemote = {
-            ApiClient
-                .comicsService
-                .findComic(comicId)
-                .data
-                .results
-                .first()
-                .toDomainModel()
-        }
-    )
+
+    suspend fun find(comicId: Int): Comic =
+        ApiClient
+            .comicsService
+            .findComic(comicId)
+            .data
+            .results
+            .first()
+            .toDomainModel()
+
 
     private fun ApiComic.toDomainModel(): Comic =
         Comic(

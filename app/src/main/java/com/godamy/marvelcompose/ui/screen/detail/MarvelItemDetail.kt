@@ -21,22 +21,31 @@ import com.godamy.marvelcompose.data.entities.ReferenceList
 
 @ExperimentalMaterialApi
 @Composable
-fun MarvelItemDetail(marvelItem: MarvelItem, onBackClick: () -> Unit) {
-    MarvelItemDetailScaffold(
-        marvelItem = marvelItem,
-        onBackClick = onBackClick
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(padding)
-        ) {
-            item {
-                Header(marvelItem)
-            }
-            marvelItem.references.forEach {
-                val (icon, @StringRes stringRes) = it.type.createUiData()
-                section(icon, stringRes, it.items)
+fun MarvelItemDetail(
+    loading: Boolean,
+    marvelItem: MarvelItem?,
+    onBackClick: () -> Unit
+) {
+    if (loading) {
+        CircularProgressIndicator()
+    }
+    if (marvelItem != null) {
+        MarvelItemDetailScaffold(
+            marvelItem = marvelItem,
+            onBackClick = onBackClick
+        ) { padding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(padding)
+            ) {
+                item {
+                    Header(marvelItem)
+                }
+                marvelItem.references.forEach {
+                    val (icon, @StringRes stringRes) = it.type.createUiData()
+                    section(icon, stringRes, it.items)
+                }
             }
         }
     }
