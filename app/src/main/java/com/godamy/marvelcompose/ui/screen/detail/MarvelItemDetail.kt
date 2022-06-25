@@ -1,6 +1,8 @@
 package com.godamy.marvelcompose.ui.screen.detail
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
@@ -18,33 +21,42 @@ import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.MarvelItem
 import com.godamy.marvelcompose.data.entities.Reference
 import com.godamy.marvelcompose.data.entities.ReferenceList
+import com.godamy.marvelcompose.data.entities.Result
+import com.godamy.marvelcompose.ui.screen.common.ErrorMessage
 
 @ExperimentalMaterialApi
 @Composable
 fun MarvelItemDetail(
     loading: Boolean,
-    marvelItem: MarvelItem?,
+    marvelItem: Result<MarvelItem?>,
     onBackClick: () -> Unit
 ) {
-    if (loading) {
-        CircularProgressIndicator()
-    }
-    if (marvelItem != null) {
-        MarvelItemDetailScaffold(
-            marvelItem = marvelItem,
-            onBackClick = onBackClick
-        ) { padding ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(padding)
-            ) {
-                item {
-                    Header(marvelItem)
-                }
-                marvelItem.references.forEach {
-                    val (icon, @StringRes stringRes) = it.type.createUiData()
-                    section(icon, stringRes, it.items)
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        if (loading) {
+            CircularProgressIndicator()
+        }
+        marvelItem.fold({ ErrorMessage(error = it) }) {
+            it?.let { item ->
+                MarvelItemDetailScaffold(
+                    marvelItem = item,
+                    onBackClick = onBackClick
+                ) { padding ->
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(padding)
+                    ) {
+                        item {
+                            Header(item)
+                        }
+                        item.references.forEach { reference ->
+                            val (icon, @StringRes stringRes) = reference.type.createUiData()
+                            section(icon, stringRes, reference.items)
+                        }
+                    }
                 }
             }
         }

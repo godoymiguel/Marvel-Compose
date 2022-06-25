@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.godamy.marvelcompose.data.entities.Character
+import com.godamy.marvelcompose.ui.screen.common.ErrorMessage
 import com.godamy.marvelcompose.ui.screen.main.MarvelItemsVerticalGrid
 
 @ExperimentalFoundationApi
@@ -14,7 +15,7 @@ fun CharactersScreen(onClick: (Character) -> Unit, viewModel: CharacterViewModel
     val state by viewModel.state.collectAsState()
     MarvelItemsVerticalGrid(
         loading = state.loading,
-        items = state.items,
+        marvelItems = state.items,
         onClick = onClick
     )
 }

@@ -14,7 +14,7 @@ fun EventsScreen(onClick: (Event) -> Unit, viewModel: EventViewModel = viewModel
     val state by viewModel.state.collectAsState()
     MarvelItemsVerticalGrid(
         loading = state.loading,
-        items = state.items,
+        marvelItems = state.items,
         onClick = onClick
     )
 }

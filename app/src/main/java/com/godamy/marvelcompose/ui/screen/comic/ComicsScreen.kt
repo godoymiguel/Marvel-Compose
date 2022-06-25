@@ -33,7 +33,7 @@ fun ComicsScreen(onClick: (Comic) -> Unit, viewModel: ComicViewModel = viewModel
 
             MarvelItemsVerticalGrid(
                 loading = pageState.loading,
-                items = pageState.items,
+                marvelItems = pageState.comics,
                 onClick = onClick
             )
         }

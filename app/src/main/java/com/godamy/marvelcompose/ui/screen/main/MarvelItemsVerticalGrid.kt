@@ -15,12 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.MarvelItem
+import com.godamy.marvelcompose.data.entities.Result
+import com.godamy.marvelcompose.ui.screen.common.ErrorMessage
 
 @ExperimentalFoundationApi
 @Composable
 fun <T : MarvelItem> MarvelItemsVerticalGrid(
     loading: Boolean,
-    items: List<T>,
+    marvelItems: Result<List<T>>,
     onClick: (T) -> Unit
 ) {
     Box(
@@ -30,16 +32,19 @@ fun <T : MarvelItem> MarvelItemsVerticalGrid(
         if (loading) {
             CircularProgressIndicator()
         }
-        if (items.isNotEmpty()) {
-            LazyVerticalGrid(
-                cells = GridCells.Adaptive(dimensionResource(id = R.dimen.grid_cell_180)),
-                contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_4))
-            ) {
-                items(items) {
-                    MarvelItem(
-                        marvelItem = it,
-                        modifier = Modifier.clickable { onClick(it) }
-                    )
+
+        marvelItems.fold({ ErrorMessage(error = it)}) {
+            if (it.isNotEmpty()) {
+                LazyVerticalGrid(
+                    cells = GridCells.Adaptive(dimensionResource(id = R.dimen.grid_cell_180)),
+                    contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_4))
+                ) {
+                    items(it) { item ->
+                        MarvelItem(
+                            marvelItem = item,
+                            modifier = Modifier.clickable { onClick(item) }
+                        )
+                    }
                 }
             }
         }

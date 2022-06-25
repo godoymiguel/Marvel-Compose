@@ -1,31 +1,33 @@
 package com.godamy.marvelcompose.data.repositories
 
-import com.godamy.marvelcompose.data.entities.Comic
-import com.godamy.marvelcompose.data.entities.ReferenceList
-import com.godamy.marvelcompose.data.entities.Url
+import com.godamy.marvelcompose.data.entities.*
 import com.godamy.marvelcompose.data.network.ApiClient
 import com.godamy.marvelcompose.data.network.entities.ApiComic
 import com.godamy.marvelcompose.data.network.entities.asString
 
 object ComicsRepository {
 
-    suspend fun get(format: Comic.Format): List<Comic> =
-        ApiClient
-            .comicsService
-            .getComics(offset = 0, limit = 20, format = format.toStringFormat())
-            .data
-            .results
-            .map { it.toDomainModel() }
+    suspend fun get(format: Comic.Format? = null): Result<List<Comic>> =
+        tryCall {
+            ApiClient
+                .comicsService
+                .getComics(offset = 0, limit = 100, format = format?.toStringFormat())
+                .data
+                .results
+                .map { it.toDomainModel() }
+        }
 
 
-    suspend fun find(comicId: Int): Comic =
-        ApiClient
-            .comicsService
-            .findComic(comicId)
-            .data
-            .results
-            .first()
-            .toDomainModel()
+    suspend fun find(comicId: Int): Result<Comic> =
+        tryCall {
+            ApiClient
+                .comicsService
+                .findComic(comicId)
+                .data
+                .results
+                .first()
+                .toDomainModel()
+        }
 
 
     private fun ApiComic.toDomainModel(): Comic =
