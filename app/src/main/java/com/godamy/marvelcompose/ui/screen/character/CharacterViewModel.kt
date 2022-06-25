@@ -1,22 +1,22 @@
 package com.godamy.marvelcompose.ui.screen.character
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.godamy.marvelcompose.data.repositories.CharactersRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CharacterViewModel : ViewModel() {
 
-    var state by mutableStateOf(CharacterUiState())
-        private set
+    private val _state = MutableStateFlow(CharacterUiState())
+    val state: StateFlow<CharacterUiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            state = CharacterUiState(loading = true)
-            state = CharacterUiState(items = CharactersRepository.get())
+            _state.value = CharacterUiState(loading = true)
+            _state.value = CharacterUiState(items = CharactersRepository.get())
         }
     }
 }

@@ -3,6 +3,7 @@ package com.godamy.marvelcompose.ui.screen.comic
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.godamy.marvelcompose.data.entities.Comic
@@ -28,7 +29,7 @@ fun ComicsScreen(onClick: (Comic) -> Unit, viewModel: ComicViewModel = viewModel
         ) { page ->
             val format = formats[page]
             viewModel.formatRequested(format)
-            val pageState by viewModel.state.getValue(format)
+            val pageState by viewModel.state.getValue(format).collectAsState()
 
             MarvelItemsVerticalGrid(
                 loading = pageState.loading,
