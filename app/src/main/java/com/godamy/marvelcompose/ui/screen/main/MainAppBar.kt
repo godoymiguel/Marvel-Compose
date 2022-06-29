@@ -1,21 +1,21 @@
 package com.godamy.marvelcompose.ui.screen.main
 
 import android.widget.Toast
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.godamy.marvelcompose.R
-import kotlinx.coroutines.launch
 
 
 @Composable
-fun MainAppBar(scaffoldState: ScaffoldState) {
-    val coroutineScope = rememberCoroutineScope()
+fun MainAppBar(onMenuClick: () -> Unit) {
     val context = LocalContext.current
 
     TopAppBar(
@@ -31,11 +31,7 @@ fun MainAppBar(scaffoldState: ScaffoldState) {
             }
         },
         navigationIcon = {
-            IconButton(onClick = {
-                coroutineScope.launch {
-                    scaffoldState.drawerState.open()
-                }
-            }) {
+            IconButton(onClick = onMenuClick) {
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = null

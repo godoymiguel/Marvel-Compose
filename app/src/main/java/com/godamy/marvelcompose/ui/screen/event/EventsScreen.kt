@@ -1,22 +1,22 @@
 package com.godamy.marvelcompose.ui.screen.event
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.godamy.marvelcompose.data.entities.Event
-import com.godamy.marvelcompose.data.repositories.EventsRepository
 import com.godamy.marvelcompose.ui.screen.main.MarvelItemsVerticalGrid
 
 @ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
-fun EventsScreen(onClick: (Event) -> Unit) {
-    var eventsState by rememberSaveable {
-        mutableStateOf(emptyList<Event>())
-    }
-
-    LaunchedEffect(Unit) {
-        eventsState = EventsRepository.get()
-    }
-
-    MarvelItemsVerticalGrid(eventsState, onClick)
+fun EventsScreen(onClick: (Event) -> Unit, viewModel: EventViewModel = viewModel()) {
+    val state by viewModel.state.collectAsState()
+    MarvelItemsVerticalGrid(
+        loading = state.loading,
+        marvelItems = state.items,
+        onClick = onClick
+    )
 }

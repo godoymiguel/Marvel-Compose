@@ -1,27 +1,27 @@
 package com.godamy.marvelcompose.data.repositories
 
 import com.godamy.marvelcompose.data.entities.MarvelItem
+import com.godamy.marvelcompose.data.entities.Result
+import com.godamy.marvelcompose.data.entities.tryCall
 
 abstract class Repository<T : MarvelItem> {
 
     private var cache: List<T> = emptyList()
 
-    internal suspend fun get(getAction: suspend () -> List<T>): List<T> {
-        if (cache.isEmpty()) {
-            cache = getAction()
+    internal suspend fun get(getAction: suspend () -> List<T>): Result<List<T>> =
+        tryCall {
+            cache.ifEmpty {
+                getAction()
+            }
         }
-
-        return cache
-    }
 
     internal suspend fun find(
         id: Int,
         findActionRemote: suspend () -> T
-    ): T {
-        val item = cache.find { it.id == id }
+    ): Result<T> =
+        tryCall {
+            val item = cache.find { it.id == id }
 
-        if (item != null) return item
-
-        return findActionRemote()
-    }
+            item ?: findActionRemote()
+        }
 }

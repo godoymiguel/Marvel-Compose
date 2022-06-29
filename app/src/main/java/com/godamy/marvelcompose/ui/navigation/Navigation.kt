@@ -15,11 +15,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.godamy.marvelcompose.ui.screen.character.CharacterDetailScreen
+import com.godamy.marvelcompose.ui.screen.character.detail.CharacterDetailScreen
 import com.godamy.marvelcompose.ui.screen.character.CharactersScreen
-import com.godamy.marvelcompose.ui.screen.comic.ComicDetailScreen
+import com.godamy.marvelcompose.ui.screen.comic.detail.ComicDetailScreen
 import com.godamy.marvelcompose.ui.screen.comic.ComicsScreen
-import com.godamy.marvelcompose.ui.screen.event.EventDetailScreen
+import com.godamy.marvelcompose.ui.screen.event.detail.EventDetailScreen
 import com.godamy.marvelcompose.ui.screen.event.EventsScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 
@@ -35,11 +35,11 @@ fun Navigation(navController: NavHostController) {
         comicsNav(navController)
         charactersNav(navController)
         eventsNav(navController)
-        settingsNav(navController)
+        settingsNav()
     }
 }
 
-private fun NavGraphBuilder.settingsNav(navController: NavHostController) {
+private fun NavGraphBuilder.settingsNav() {
     composable(NavCommand.ContentType(Feature.SETTINGS)) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -70,8 +70,7 @@ private fun NavGraphBuilder.comicsNav(navController: NavHostController) {
             ComicDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
-                },
-                itemId = it.findArg(NavArg.ItemId)
+                }
             )
         }
     }
@@ -95,8 +94,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavHostController) {
             CharacterDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
-                },
-                itemId = it.findArg(NavArg.ItemId)
+                }
             )
         }
     }
@@ -118,8 +116,7 @@ private fun NavGraphBuilder.eventsNav(navController: NavHostController) {
             EventDetailScreen(
                 onBackClick = {
                     navController.popBackStack()
-                },
-                itemId = it.findArg(NavArg.ItemId)
+                }
             )
         }
     }
