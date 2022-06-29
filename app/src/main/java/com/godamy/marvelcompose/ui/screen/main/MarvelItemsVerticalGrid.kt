@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -17,7 +17,9 @@ import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.MarvelItem
 import com.godamy.marvelcompose.data.entities.Result
 import com.godamy.marvelcompose.ui.screen.common.ErrorMessage
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun <T : MarvelItem> MarvelItemsVerticalGrid(
@@ -32,18 +34,46 @@ fun <T : MarvelItem> MarvelItemsVerticalGrid(
         if (loading) {
             CircularProgressIndicator()
         }
-
-        marvelItems.fold({ ErrorMessage(error = it)}) {
+        marvelItems.fold({ ErrorMessage(error = it) }) {
             if (it.isNotEmpty()) {
-                LazyVerticalGrid(
-                    cells = GridCells.Adaptive(dimensionResource(id = R.dimen.grid_cell_180)),
-                    contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_4))
-                ) {
-                    items(it) { item ->
-                        MarvelItem(
-                            marvelItem = item,
-                            modifier = Modifier.clickable { onClick(item) }
+                val sheetState =
+                    rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+                val coroutineScope = rememberCoroutineScope()
+
+                var bottomSheetItem by remember {
+                    mutableStateOf<T?>(null)
+                }
+
+                ModalBottomSheetLayout(
+                    sheetContent = {
+                        MarvelItemBottomSheet(
+                            item = bottomSheetItem,
+                            onGoDetail = {
+                                coroutineScope.launch {
+                                    sheetState.hide()
+                                    onClick(it)
+                                }
+                            }
                         )
+                    },
+                    sheetState = sheetState
+                ) {
+                    LazyVerticalGrid(
+                        cells = GridCells.Adaptive(dimensionResource(id = R.dimen.grid_cell_180)),
+                        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_4))
+                    ) {
+                        items(it) { item ->
+                            MarvelItem(
+                                marvelItem = item,
+                                modifier = Modifier.clickable { onClick(item) },
+                                onItemMoreClick = {
+                                    bottomSheetItem = item
+                                    coroutineScope.launch {
+                                        sheetState.show()
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }
