@@ -7,7 +7,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.godamy.marvelcompose.data.entities.Character
-import com.godamy.marvelcompose.ui.screen.common.ErrorMessage
 import com.godamy.marvelcompose.ui.screen.main.MarvelItemsVerticalGrid
 
 @ExperimentalMaterialApi

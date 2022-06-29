@@ -1,5 +1,7 @@
 package com.godamy.marvelcompose.ui.screen.main
 
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -12,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.MarvelItem
@@ -42,6 +45,18 @@ fun <T : MarvelItem> MarvelItemsVerticalGrid(
 
                 var bottomSheetItem by remember {
                     mutableStateOf<T?>(null)
+                }
+
+                val lifecycleOwner = LocalLifecycleOwner.current
+                val backDispatcher =
+                    requireNotNull(LocalOnBackPressedDispatcherOwner.current).onBackPressedDispatcher
+
+                LaunchedEffect(lifecycleOwner, backDispatcher) {
+                    backDispatcher.addCallback(lifecycleOwner, object : OnBackPressedCallback(true) {
+                        override fun handleOnBackPressed() {
+                            coroutineScope.launch { sheetState.hide() }
+                        }
+                    })
                 }
 
                 ModalBottomSheetLayout(
