@@ -2,6 +2,7 @@ package com.godamy.marvelcompose.ui.screen.comic
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,6 +16,7 @@ import com.google.accompanist.pager.rememberPagerState
 
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
 fun ComicsScreen(onClick: (Comic) -> Unit, viewModel: ComicViewModel = viewModel()) {
 

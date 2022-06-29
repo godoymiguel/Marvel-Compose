@@ -4,4 +4,7 @@
     <dimen name="weigth_1">1f</dimen>
     <dimen name="padding_4">4dp</dimen>
     <dimen name="grid_cell_180">180dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="space_by_8">8dp</dimen>
+    <dimen name="image_width_96">96dp</dimen>
 </resources>
