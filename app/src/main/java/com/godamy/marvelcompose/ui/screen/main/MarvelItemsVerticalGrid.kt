@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +19,9 @@ import com.godamy.marvelcompose.R
 import com.godamy.marvelcompose.data.entities.MarvelItem
 import com.godamy.marvelcompose.data.entities.Result
 import com.godamy.marvelcompose.ui.screen.common.ErrorMessage
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -35,6 +39,19 @@ fun <T : MarvelItem> MarvelItemsVerticalGrid(
         if (loading) {
             CircularProgressIndicator()
         }
+
+        val listState = rememberLazyListState()
+
+        LaunchedEffect(listState) {
+            snapshotFlow { listState.firstVisibleItemIndex }
+                .map { index -> index > 20 }
+                .distinctUntilChanged()
+                .filter { it }
+                .collect {
+                    // Send to Analytics
+                }
+        }
+
         marvelItems.fold({ ErrorMessage(error = it) }) {
             if (it.isNotEmpty()) {
                 val sheetState =
