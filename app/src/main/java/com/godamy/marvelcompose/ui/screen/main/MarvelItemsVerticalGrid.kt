@@ -47,22 +47,8 @@ fun <T : MarvelItem> MarvelItemsVerticalGrid(
                     mutableStateOf<T?>(null)
                 }
 
-                val lifecycleOwner = LocalLifecycleOwner.current
-                val backDispatcher =
-                    requireNotNull(LocalOnBackPressedDispatcherOwner.current).onBackPressedDispatcher
-
-                val backCallback = remember {
-                    object : OnBackPressedCallback(true) {
-                        override fun handleOnBackPressed() {
-                            coroutineScope.launch { sheetState.hide() }
-                        }
-                    }
-                }
-
-                DisposableEffect(lifecycleOwner, backDispatcher) {
-                    backDispatcher.addCallback(lifecycleOwner, backCallback)
-
-                    onDispose { backCallback.remove() }
+                BackPressedHandler(sheetState.isVisible) {
+                    coroutineScope.launch { sheetState.hide() }
                 }
 
                 ModalBottomSheetLayout(
