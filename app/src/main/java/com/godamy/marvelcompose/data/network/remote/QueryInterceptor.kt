@@ -1,14 +1,16 @@
 package com.godamy.marvelcompose.data.network.remote
 
 import com.godamy.marvelcompose.data.network.generateHash
+import com.godamy.marvelcompose.di.PrivateKey
+import com.godamy.marvelcompose.di.PublicKey
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.*
 import javax.inject.Inject
 
 class QueryInterceptor @Inject constructor(
-    private val privateKey: String,
-    private val publicKey: String
+    @PrivateKey private val privateKey: String,
+    @PublicKey private val publicKey: String
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val original = chain.request()
