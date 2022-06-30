@@ -4,14 +4,14 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.godamy.marvelcompose.ui.screen.detail.MarvelItemDetail
 
 @ExperimentalMaterialApi
 @Composable
 fun CharacterDetailScreen(
     onBackClick: () -> Unit,
-    viewModel: CharacterDetailViewModel = viewModel()
+    viewModel: CharacterDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     MarvelItemDetail(

@@ -6,7 +6,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.godamy.marvelcompose.data.entities.Comic
 import com.godamy.marvelcompose.ui.screen.main.ComicFormatTabRow
 import com.godamy.marvelcompose.ui.screen.main.MarvelItemsVerticalGrid
@@ -18,7 +18,7 @@ import com.google.accompanist.pager.rememberPagerState
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ComicsScreen(onClick: (Comic) -> Unit, viewModel: ComicViewModel = viewModel()) {
+fun ComicsScreen(onClick: (Comic) -> Unit, viewModel: ComicViewModel = hiltViewModel()) {
 
     val formats = Comic.Format.values().toList()
     val pagerState = rememberPagerState()

@@ -4,16 +4,17 @@ import com.godamy.marvelcompose.data.entities.Event
 import com.godamy.marvelcompose.data.entities.ReferenceList
 import com.godamy.marvelcompose.data.entities.Result
 import com.godamy.marvelcompose.data.entities.Url
-import com.godamy.marvelcompose.data.network.ApiClient
 import com.godamy.marvelcompose.data.network.entities.ApiEvent
 import com.godamy.marvelcompose.data.network.entities.asString
+import com.godamy.marvelcompose.data.network.remote.EventsService
+import javax.inject.Inject
 
-object EventsRepository : Repository<Event>() {
+class EventsRepository @Inject constructor(private val eventsService: EventsService) :
+    Repository<Event>() {
 
     suspend fun get(): Result<List<Event>> =
         super.get {
-            ApiClient
-                .eventsService
+            eventsService
                 .getEvents(0, 100)
                 .data
                 .results
@@ -24,8 +25,7 @@ object EventsRepository : Repository<Event>() {
         super.find(
             id = id,
             findActionRemote = {
-                ApiClient
-                    .eventsService
+                eventsService
                     .findEvent(id)
                     .data
                     .results
