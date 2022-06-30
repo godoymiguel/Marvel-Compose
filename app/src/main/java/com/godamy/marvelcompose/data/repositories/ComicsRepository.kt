@@ -1,16 +1,16 @@
 package com.godamy.marvelcompose.data.repositories
 
 import com.godamy.marvelcompose.data.entities.*
-import com.godamy.marvelcompose.data.network.ApiClient
 import com.godamy.marvelcompose.data.network.entities.ApiComic
 import com.godamy.marvelcompose.data.network.entities.asString
+import com.godamy.marvelcompose.data.network.remote.ComicsService
+import javax.inject.Inject
 
-object ComicsRepository {
+class ComicsRepository @Inject constructor(private val comicsService: ComicsService) {
 
     suspend fun get(format: Comic.Format? = null): Result<List<Comic>> =
         tryCall {
-            ApiClient
-                .comicsService
+            comicsService
                 .getComics(offset = 0, limit = 100, format = format?.toStringFormat())
                 .data
                 .results
@@ -20,8 +20,7 @@ object ComicsRepository {
 
     suspend fun find(comicId: Int): Result<Comic> =
         tryCall {
-            ApiClient
-                .comicsService
+            comicsService
                 .findComic(comicId)
                 .data
                 .results

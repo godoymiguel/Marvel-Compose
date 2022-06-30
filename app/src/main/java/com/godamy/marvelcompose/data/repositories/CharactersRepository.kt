@@ -4,15 +4,16 @@ import com.godamy.marvelcompose.data.entities.Character
 import com.godamy.marvelcompose.data.entities.ReferenceList
 import com.godamy.marvelcompose.data.entities.Result
 import com.godamy.marvelcompose.data.entities.Url
-import com.godamy.marvelcompose.data.network.ApiClient
 import com.godamy.marvelcompose.data.network.entities.ApiCharacter
 import com.godamy.marvelcompose.data.network.entities.asString
+import com.godamy.marvelcompose.data.network.remote.CharactersService
+import javax.inject.Inject
 
-object CharactersRepository : Repository<Character>() {
+class CharactersRepository @Inject constructor(private val charactersService: CharactersService) :
+    Repository<Character>() {
 
     suspend fun get(): Result<List<Character>> = super.get {
-        ApiClient
-            .charactersService
+        charactersService
             .getCharacters(0, 100)
             .data
             .results
@@ -22,8 +23,7 @@ object CharactersRepository : Repository<Character>() {
     suspend fun find(characterId: Int): Result<Character> = super.find(
         id = characterId,
         findActionRemote = {
-            ApiClient
-                .charactersService
+            charactersService
                 .findCharacter(characterId)
                 .data
                 .results

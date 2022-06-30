@@ -6,11 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.godamy.marvelcompose.data.repositories.ComicsRepository
 import com.godamy.marvelcompose.ui.navigation.NavArg
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ComicDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
+@HiltViewModel
+class ComicDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    comicsRepository: ComicsRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(ComicDetailUiState())
     val state = _state.asStateFlow()
@@ -20,7 +26,7 @@ class ComicDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = ComicDetailUiState(loading = true)
-            _state.value = ComicDetailUiState(comic = ComicsRepository.find(comicId))
+            _state.value = ComicDetailUiState(comic = comicsRepository.find(comicId))
         }
     }
 }
