@@ -5,14 +5,17 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.godamy.marvelcompose.data.entities.Character
 import com.godamy.marvelcompose.ui.screen.main.MarvelItemsVerticalGrid
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun CharactersScreen(onClick: (Character) -> Unit, viewModel: CharacterViewModel = viewModel()) {
+fun CharactersScreen(
+    onClick: (Character) -> Unit,
+    viewModel: CharacterViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsState()
     MarvelItemsVerticalGrid(
         loading = state.loading,
