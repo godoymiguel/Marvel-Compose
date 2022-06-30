@@ -1,4 +1,4 @@
-package com.godamy.marvelcompose.data.network
+package com.godamy.marvelcompose.data.network.remote
 
 import com.godamy.marvelcompose.data.network.entities.ApiResponse
 import com.godamy.marvelcompose.data.network.entities.ApiEvent
