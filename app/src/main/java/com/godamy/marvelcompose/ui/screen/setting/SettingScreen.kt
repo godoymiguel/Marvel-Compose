@@ -1,5 +1,6 @@
 package com.godamy.marvelcompose.ui.screen.setting
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun SettingScreen() {
@@ -29,7 +31,30 @@ fun SettingScreen() {
             BadgedBox()
             Checkbox()
             RadioButton()
+            Switch()
         }
+    }
+}
+
+@Composable
+private fun Switch() {
+    var state by remember { mutableStateOf(false) }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier =
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .clickable { state = !state }
+    ) {
+        Text(
+            text = "Switch Action",
+            modifier = Modifier.weight(1f)
+        )
+        Switch(
+            checked = state,
+            onCheckedChange = { state = it }
+        )
     }
 }
 
