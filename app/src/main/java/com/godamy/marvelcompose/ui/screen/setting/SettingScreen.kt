@@ -28,6 +28,21 @@ fun SettingScreen() {
             IconToggleButton()
             BadgedBox()
             Checkbox()
+            RadioButton()
+        }
+    }
+}
+
+@Composable
+private fun RadioButton() {
+    val radioOptions = listOf("RB1", "RB2", "RB3", "RB4")
+    var selected by remember { mutableStateOf(-1) }
+    Column {
+        radioOptions.forEachIndexed { index, text ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(selected = selected == index, onClick = { selected = index })
+                Text(text = text)
+            }
         }
     }
 }
