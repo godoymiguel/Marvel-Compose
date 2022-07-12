@@ -21,6 +21,7 @@ import com.godamy.marvelcompose.ui.screen.comic.detail.ComicDetailScreen
 import com.godamy.marvelcompose.ui.screen.comic.ComicsScreen
 import com.godamy.marvelcompose.ui.screen.event.detail.EventDetailScreen
 import com.godamy.marvelcompose.ui.screen.event.EventsScreen
+import com.godamy.marvelcompose.ui.screen.setting.SettingScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalFoundationApi
@@ -41,15 +42,7 @@ fun Navigation(navController: NavHostController) {
 
 private fun NavGraphBuilder.settingsNav() {
     composable(NavCommand.ContentType(Feature.SETTINGS)) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Settings",
-                style = MaterialTheme.typography.h3
-            )
-        }
+        SettingScreen()
     }
 }
 
