@@ -5,17 +5,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.progressSemantics
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.tooling.preview.Preview
 
+@Preview(showBackground = true)
 @ExperimentalMaterialApi
 @Composable
 fun SettingScreen() {
@@ -26,17 +30,32 @@ fun SettingScreen() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Settings",
-                style = MaterialTheme.typography.h3
-            )
+            Tabs()
             IconToggleButton()
             BadgedBox()
             Checkbox()
             RadioButton()
             Switch()
             Sliders()
+            LinearProgressIndicator(progress = 0.5f)
         }
+    }
+}
+
+@Composable
+private fun Tabs() {
+    TabRow(selectedTabIndex = 0) {
+        LeadingIconTab(
+            selected = true,
+            onClick = { /*TODO*/ },
+            text = { Text(text = "Settings") },
+            icon = { Icon(imageVector = Icons.Default.Settings, contentDescription = null) }
+        )
+        Tab(
+            selected = true,
+            onClick = { /*TODO*/ },
+            text = { Text(text = "Settings") }
+        )
     }
 }
 
@@ -117,7 +136,11 @@ private fun BadgedBox() {
 @Composable
 private fun IconToggleButton() {
     var favorite by remember { mutableStateOf(false) }
-    IconToggleButton(checked = favorite, onCheckedChange = { favorite = it }) {
+    IconToggleButton(
+        checked = favorite,
+        onCheckedChange = { favorite = it },
+        modifier = Modifier.progressSemantics(0.5f)
+    ) {
         Icon(
             imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
             contentDescription = "Favorite"
