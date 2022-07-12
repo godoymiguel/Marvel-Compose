@@ -1,11 +1,12 @@
 package com.godamy.marvelcompose.ui.screen.setting
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.progressSemantics
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -18,26 +19,91 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 @Preview(showBackground = true)
 @ExperimentalMaterialApi
 @Composable
 fun SettingScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+    val state = rememberScrollState()
+    BottomSheet {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Tabs()
-            IconToggleButton()
-            BadgedBox()
-            Checkbox()
-            RadioButton()
-            Switch()
-            Sliders()
-            LinearProgressIndicator(progress = 0.5f)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.scrollable(state = state, orientation = Orientation.Vertical)
+            ) {
+                Tabs()
+                IconToggleButton()
+                BadgedBox()
+                Checkbox()
+                RadioButton()
+                Switch()
+                Sliders()
+                LinearProgressIndicator(progress = 0.5f)
+            }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun BottomSheet(content: @Composable (PaddingValues) -> Unit) {
+    val state = rememberBottomSheetScaffoldState()
+    BottomSheetScaffold(
+        scaffoldState = state,
+        sheetContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(Color.LightGray),
+            ) {
+                Column {
+                    Text(
+                        text = "Settings",
+                        style = MaterialTheme.typography.h3,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    ExposedDropdown()
+                }
+            }
+        },
+        content = content
+    )
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun ExposedDropdown() {
+    val options = listOf("A", "B", "C", "D")
+    var selected by remember { mutableStateOf(0) }
+    var expanded by remember { mutableStateOf(false) }
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it }
+    ) {
+        TextField(
+            value = options[selected],
+            onValueChange = {},
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            }
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = !expanded }
+        ) {
+            options.forEachIndexed { index, text ->
+                DropdownMenuItem(onClick = {
+                    selected = index
+                    expanded = !expanded
+                }) {
+                    Text(text = text)
+                }
+            }
         }
     }
 }
@@ -52,7 +118,7 @@ private fun Tabs() {
             icon = { Icon(imageVector = Icons.Default.Settings, contentDescription = null) }
         )
         Tab(
-            selected = true,
+            selected = false,
             onClick = { /*TODO*/ },
             text = { Text(text = "Settings") }
         )
