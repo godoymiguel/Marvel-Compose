@@ -1,7 +1,10 @@
 package com.godamy.marvelcompose.ui.screen.setting
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -10,9 +13,10 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
-import androidx.compose.ui.unit.dp
 
+@ExperimentalMaterialApi
 @Composable
 fun SettingScreen() {
     Box(
@@ -20,8 +24,7 @@ fun SettingScreen() {
         contentAlignment = Alignment.Center
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Settings",
@@ -32,7 +35,33 @@ fun SettingScreen() {
             Checkbox()
             RadioButton()
             Switch()
+            Sliders()
         }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun Sliders() {
+    var value by remember { mutableStateOf(50f) }
+    var valueRange by remember { mutableStateOf(30f..60f) }
+    Column {
+        Slider(
+            value = value,
+            onValueChange = { value = it },
+            valueRange = 0f..100f,
+            steps = 10
+        )
+        RangeSlider(
+            values = valueRange,
+            onValueChange = { valueRange = it },
+            valueRange = 0f..100f,
+            steps = 10,
+            colors = SliderDefaults.colors(
+                thumbColor = Color.Blue,
+                activeTickColor = Color.Green
+            )
+        )
     }
 }
 
@@ -41,11 +70,7 @@ private fun Switch() {
     var state by remember { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier =
-        Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .clickable { state = !state }
+        modifier = Modifier.clickable { state = !state }
     ) {
         Text(
             text = "Switch Action",
